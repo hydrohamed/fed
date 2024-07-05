@@ -1,0 +1,30 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Flood Events Database{% endblock %}</title>
+    <link rel="stylesheet" href="{% static 'core/style.css' %}">
+    {% block extra_css %}{% endblock %}
+</head>
+<body>
+    <header>
+        <h1><a href="{% url 'index' %}">Flood Events Database</a></h1>
+        {% comment %} <nav>
+            <ul>
+                <li><a href="{% url 'index' %}">Home</a></li>
+                <li><a href="{% url 'map' %}">Map</a></li>
+                <!-- Add more navigation links as needed -->
+            </ul>
+        </nav> {% endcomment %}
+    </header>
+    <div class="container">
+        {% block sidebar %}{% endblock %}
+        <main>
+            {% block content %}{% endblock %}
+        </main>
+        {% block extra_js %}{% endblock %}
+    </div>
+</body>
+</html>

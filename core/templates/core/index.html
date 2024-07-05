@@ -1,0 +1,82 @@
+{% extends 'core/base.html' %}
+
+{% load leaflet_tags %}
+
+{% block title %}Flood Events Database{% endblock %}
+
+{% block extra_css %}
+    {% leaflet_css %}
+{% endblock %}
+
+{% block sidebar %}
+    <aside class="sidebar">
+        <h2>Filter</h2>
+        <form id="filter-form" method="get">
+            {{ filter_form.as_p }}
+            <button type="submit">Apply</button>
+        </form>
+    </aside>
+{% endblock %}
+
+{% block content %}
+    <div id="map-container"></div>
+{% endblock %}
+
+{% block extra_js %}
+    {% leaflet_js %}
+        <script>
+            document.addEventListener("DOMContentLoaded", function() {
+                var map = L.map('map-container').setView([0, 0], 2);
+                L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+                }).addTo(map);
+    
+                function addMarkers(events) {
+                    events.forEach(event => {
+                        L.marker([event.location.y, event.location.x]).addTo(map)
+                            .bindPopup(`
+                                <div class="popup-content">
+                                    Start Date: ${event.start_date}<br>
+                                    Type: ${event.type}<br>
+                                    Cause: ${event.cause}<br>
+                                    Severity: ${event.severity}<br>
+                                    <a href="${event.detail_url}">Detail</a>
+                                </div>
+                            `);
+                    });
+                }
+    
+                function fetchFilteredEvents() {
+                    var formData = new FormData(document.getElementById('filter-form'));
+                    var queryParams = new URLSearchParams();
+    
+                    for (var pair of formData.entries()) {
+                        if (pair[1]) { // Only add non-empty fields to the query params
+                            queryParams.append(pair[0], pair[1]);
+                        }
+                    }
+    
+                    var url = "{% url 'filtered_flood_events' %}?" + queryParams.toString();
+    
+                    fetch(url)
+                        .then(response => response.json())
+                        .then(data => {
+                            map.eachLayer(function (layer) {
+                                if (layer instanceof L.Marker) {
+                                    map.removeLayer(layer);
+                                }
+                            });
+                            addMarkers(data.events);
+                        });
+                }
+    
+                document.getElementById('filter-form').addEventListener('submit', function(e) {
+                    e.preventDefault();
+                    fetchFilteredEvents();
+                });
+    
+                // Initial fetch to load all events
+                fetchFilteredEvents();
+            });
+    </script>
+{% endblock %}

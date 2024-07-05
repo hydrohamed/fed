@@ -1,0 +1,100 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto&display=swap');
+
+html,
+body {
+    height: 100%;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    font-family: "Roboto", sans-serif;
+    font-weight: 400;
+    font-style: normal;
+    background-color: #fff;
+    color: #444;
+}
+
+h3 {
+    margin-bottom: 0;
+    font-size: 1.4rem;
+}
+
+header {
+    background-color: #222222;
+    color: white;
+    padding: 0.6rem;
+}
+
+header h1 {
+    margin: 0;
+    font-size: 1.4rem;
+}
+
+header h1 a {
+    color: #fff;
+}
+
+.container {
+    display: flex;
+}
+
+main {
+    width: 100%;
+}
+
+.sidebar {
+    width: 250px;
+    padding: 1rem;
+    background-color: #fff;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+#map-container {
+    height: calc(100vh - 3.05rem);
+    flex-grow: 1;
+}
+
+.popup-content {
+    font-size: 0.9rem;
+}
+
+.popup-content a {
+    color: #007bff;
+    text-decoration: none;
+}
+
+.popup-content a:hover {
+    text-decoration: underline;
+}
+
+#filter-form p {
+    margin-bottom: 15px;
+}
+
+#filter-form p input,
+#filter-form p select {
+    width: 100%;
+    height: 30px;
+    border-radius: 5px;
+    border: 1px solid #ccc
+}
+
+#filter-form button {
+    width: 100%;
+    height: 30px;
+    background-color: #007bff;
+    color: #fff;
+    border-radius: 5px;
+    border: 1px solid #ccc
+}
+
+#detail-container {
+    padding: 1rem 2.5rem;
+}
+
+#map-container-detail {
+    max-width: 600px;
+    height: 300px;
+    flex-grow: 1;
+}

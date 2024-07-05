@@ -1,0 +1,63 @@
+{% extends 'core/base.html' %}
+
+{% load leaflet_tags %}
+
+{% block title %}Flood Events Database{% endblock %}
+
+{% block extra_css %}
+    {% leaflet_css %}
+{% endblock %}
+
+{% block content %}
+<div id="detail-container">
+    <h2>Flood Event Details</h2>
+    <div id="map-container-detail"></div>
+    <div class="event-details">
+        <h3>Event Information</h3>
+        <p><strong>Type:</strong> {{ flood_event.get_type_display }}</p>
+        <p><strong>Cause:</strong> {{ flood_event.get_cause_display }}</p>
+        <p><strong>Severity:</strong> {{ flood_event.get_severity_display }}</p>
+        <p><strong>Start Date:</strong> {{ flood_event.start_datetime }}</p>
+        <p><strong>End Date:</strong> {{ flood_event.end_datetime }}</p>
+
+        <h3>Impact Data</h3>
+        <p><strong>Affected Area (km²):</strong> {{ flood_event.affected_area_km2 }}</p>
+        <p><strong>Population Affected:</strong> {{ flood_event.population_affected }}</p>
+        <p><strong>Injuries:</strong> {{ flood_event.injuries }}</p>
+        <p><strong>Fatalities:</strong> {{ flood_event.fatalities }}</p>
+        <p><strong>Property Damage (Local Currency):</strong> {{ flood_event.property_damage_local_currency }}</p>
+        <p><strong>Property Damage (USD):</strong> {{ flood_event.property_damage_usd }}</p>
+
+        <h3>Infrastructure Damage</h3>
+        <p><strong>Transportation Impact:</strong> {{ flood_event.transportation_impact }}</p>
+        <p><strong>Utilities Impact:</strong> {{ flood_event.utilities_impact }}</p>
+
+        <h3>Environmental Impact</h3>
+        <p><strong>Ecosystem Impact:</strong> {{ flood_event.ecosystem_impact }}</p>
+        <p><strong>Water Contamination:</strong> {{ flood_event.water_contamination_details }}</p>
+
+        <h3>Response and Recovery</h3>
+        <p><strong>Emergency Response:</strong> {{ flood_event.emergency_response }}</p>
+        <p><strong>Evacuations:</strong> {{ flood_event.evacuations }}</p>
+        <p><strong>Relief Measures:</strong> {{ flood_event.relief_measures }}</p>
+
+        <h3>Data Sources</h3>
+        <p><strong>Primary Data Sources:</strong> {{ flood_event.primary_data_sources }}</p>
+        <p><strong>Secondary Data Sources:</strong> {{ flood_event.secondary_data_sources }}</p>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+    {% leaflet_js %}
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            var map = L.map('map-container-detail').setView([{{ flood_event.location.y }}, {{ flood_event.location.x }}], 10);
+            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+            }).addTo(map);
+
+            L.marker([{{ flood_event.location.y }}, {{ flood_event.location.x }}]).addTo(map)
+        });
+    </script>
+{% endblock %}
