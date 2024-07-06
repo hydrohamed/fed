@@ -98,3 +98,30 @@ main {
     height: 300px;
     flex-grow: 1;
 }
+
+.header-container {
+    display: flex;  /* Enable flexbox for alignment */
+    justify-content: space-between; /* Distribute elements horizontally */
+    align-items: center; /* Center elements vertically */
+  }
+  
+  h1 {
+    margin: 0;  /* Remove default margin */
+  }
+  
+  nav {
+    /* Optional styling for nav (adjust as needed) */
+    display: inline-flex;  /* Ensure navigation items align horizontally */
+    list-style: none;  /* Remove default list styling */
+    padding: 0;  /* Remove default padding */
+    margin: 0;  /* Remove default margin */
+  }
+
+  nav a {
+    color: white;
+  }
+
+  nav ul li {
+    display: inline-block;
+    margin-left: 15px;
+  }
